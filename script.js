@@ -1,13 +1,12 @@
 //global variables
 var appid = '485bbc753e29e9770f09ca55c32c6d79'; //had to use Anthony's API key
-var q = 'Chicago'; //currently loggin Chicago for testing
-var geoURL = `http://api.openweathermap.org/geo/1.0/direct?q=${q}&appid=${appid}`;
+var searchEl = document.querySelector('#search');
 
 var toJSON = function (response) { //response toJSON coversion
     return response.json();
 };
 
-var DisplayWeather = function (data, city) { 
+var DisplayWeather = function (data, city) {
     console.log(data);
     var currentEl = document.querySelector('#current');
     var h2El = document.createElement('h2');
@@ -22,7 +21,7 @@ var getOneCall = function (city) {
     var oneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${city.lat}&lon=${city.lon}&appid=${appid}&units=imperial&exclude=hourly,minutely`;
     fetch(oneCall)
         .then(toJSON)
-        .then(function(data){
+        .then(function (data) {
             DisplayWeather(data, city);
         });
 };
@@ -42,29 +41,34 @@ var saveToLocalStorage = function (city) { //saves entry to local storage
     localStorage.setItem('cities', data);
 };
 
-var displayButtons = function() {
+var displayButtons = function () {
     var cities = JSON.parse(localStorage.getItem('cities')) || [];
     for (var city of cities) {
-      var buttonEl = document.createElement('button');
-      buttonEl.textContent = city;
-      buttonEl.className = "btn btn-success mb-3";
-      searchForm.appendChild(buttonEl);
+        var buttonEl = document.createElement('button');
+        buttonEl.textContent = city;
+        buttonEl.className = "btn btn-success mb-3";
+        searchForm.appendChild(buttonEl);
     }
 };
 
-var handleCityClick = function(event) {
+var handleCityClick = function (event) {
     event.preventDefault();
     if (event.target.matches('button')) {
-      var q = event.target.textContent;
-      var geoURL = `http://api.openweathermap.org/geo/1.0/direct?q=${q}&appid=${appid}`;
-      fetch(geoURL)
-        .then(toJSON)
-        .then(getGEO);
+        var q = event.target.textContent;
+        var geoURL = `http://api.openweathermap.org/geo/1.0/direct?q=${q}&appid=${appid}`;
+        fetch(geoURL)
+            .then(toJSON)
+            .then(getGEO);
     }
 };
 
+var runSearch = function(event) {
+    event.preventDefault();
+    var q = document.querySelector('#q');
+    var geoURL = `http://api.openweathermap.org/geo/1.0/direct?q=${q.value}&appid=${appid}`;
+    fetch(geoURL)
+        .then(toJSON)
+        .then(getGeo);
+};
 
-
-fetch(geoURL)
-    .then(toJSON)
-    .then(getGeo);
+searchEl.addEventListener('click', runSearch);

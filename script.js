@@ -57,8 +57,7 @@ var getOneCall = function (city) {
 var saveToLocalStorage = function (city) { //saves entry to local storage
     var cities = JSON.parse(localStorage.getItem('cities')) || [];
     cities.push(city);
-    var citySet = Array.from(new Set(names));
-    var data = JSON.stringify(citySet);
+    var data = JSON.stringify(cities);
     localStorage.setItem('cities', data);
     displayButtons();
 };

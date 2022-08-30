@@ -10,6 +10,7 @@ var toJSON = function (response) { //response toJSON coversion
 
 var DisplayWeather = function (data, city) {
     console.log(data);
+    var fiveDayEl = document.querySelector('#fiveDay')
     var currentEl = document.querySelector('#current');
     var h2El = document.createElement('h2');
     var tempEl = document.createElement('p');
@@ -17,6 +18,25 @@ var DisplayWeather = function (data, city) {
     tempEl.textContent = 'TEMP: ' + data.current.temp;
     currentEl.appendChild(h2El);
     currentEl.appendChild(tempEl);
+    var fiveDay = data.daily.slice(1,6);
+    fiveDayEl.innerHTML = null;
+    for (var day of fiveDay) {
+        var date = new Date(1661878800 * 1000).toLocaleDateString();
+        var temp = day.temp.day;
+        var colEl = document.createElement('div');
+        colEl.className = "col-12 col-md";
+        var cardEl = document.createElement('div');
+        cardEl.className = "card p-3 m-3";
+        var dateEl = document.createElement('p');
+        var tempEl = document.createElement('p');
+        var imgEl = document.createElement('img');
+        dateEl.textContent = date;
+        tempEl.textContent = temp;
+        fiveDayEl.append(colEl);
+        colEl.append(cardEl);
+        cardEl.append(tempEl);
+        cardEl.append(dateEl);
+    }   
 };
 
 var getOneCall = function (city) {
@@ -79,4 +99,3 @@ var runSearch = function(event) {
 searchEl.addEventListener('click', runSearch);
 searchedCities.addEventListener('click', handleCityClick);
 displayButtons();
-

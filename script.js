@@ -8,7 +8,7 @@ var toJSON = function (response) { //response toJSON coversion
     return response.json();
 };
 
-var DisplayWeather = function (data, city) {
+var DisplayWeather = function (data, city) { 
     console.log(data);
     var fiveDayEl = document.querySelector('#fiveDay')
     var currentEl = document.querySelector('#current');
@@ -29,12 +29,18 @@ var DisplayWeather = function (data, city) {
         cardEl.className = "card p-3 m-3";
         var dateEl = document.createElement('p');
         var tempEl = document.createElement('p');
-        var imgEl = document.createElement('img');
+        var imgEl = document.createElement('img'); 
+        var icon = day.weather[0].icon; 
+        imgEl.alt = icon;
+        imgEl.width = 90;
+        imgEl.height = 90;
+        imgEl.src = "http://openweathermap.org/img/wn/" + icon + "@2x.png"; //fetches icon from open weather api
         dateEl.textContent = date;
         tempEl.textContent = temp;
         fiveDayEl.append(colEl);
         colEl.append(cardEl);
         cardEl.append(tempEl);
+        cardEl.append(imgEl);
         cardEl.append(dateEl);
     }   
 };

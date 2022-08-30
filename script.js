@@ -9,12 +9,13 @@ var toJSON = function (response) { //response toJSON coversion
 
 var DisplayWeather = function (data, city) { 
     console.log(data);
+    var currentEl = document.querySelector('#current');
     var h2El = document.createElement('h2');
     var tempEl = document.createElement('p');
     h2El.textContent = city.name;
     tempEl.textContent = 'TEMP: ' + data.current.temp;
-    document.body.appendChild(h2El);
-    document.body.appendChild(tempEl);
+    currentEl.appendChild(h2El);
+    currentEl.appendChild(tempEl);
 };
 
 var getOneCall = function (city) {
@@ -40,6 +41,29 @@ var saveToLocalStorage = function (city) { //saves entry to local storage
     var data = JSON.stringify(cities);
     localStorage.setItem('cities', data);
 };
+
+var displayButtons = function() {
+    var cities = JSON.parse(localStorage.getItem('cities')) || [];
+    for (var city of cities) {
+      var buttonEl = document.createElement('button');
+      buttonEl.textContent = city;
+      buttonEl.className = "btn btn-success mb-3";
+      searchForm.appendChild(buttonEl);
+    }
+};
+
+var handleCityClick = function(event) {
+    event.preventDefault();
+    if (event.target.matches('button')) {
+      var q = event.target.textContent;
+      var geoURL = `http://api.openweathermap.org/geo/1.0/direct?q=${q}&appid=${appid}`;
+      fetch(geoURL)
+        .then(toJSON)
+        .then(getGEO);
+    }
+};
+
+
 
 fetch(geoURL)
     .then(toJSON)

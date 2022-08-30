@@ -7,7 +7,25 @@
     <title>Weather Dashboard</title>
 </head>
 <body>
-
+    <main class="container">
+        <section class="row">
+          <div class="col-12 col-md-3">
+            <form id="searchForm" class="card p-3 m-3">
+              <input id="q" class="form-control mb-3" />
+              <button id="search" type="submit" class="btn btn-primary mb-3">Search</button>
+              <div id="searchedCities"></div>
+            </form>
+          </div>
+          <div class="col-12 col-md-9">
+            <div class="card p-3 m-3" id="current">
+            
+            </div>
+            <div id="fiveDay" class="row">
+            
+            </div>
+          </div>
+        </section>
+      </main>
     <script src="script.js"></script>
 </body>
 </html>
